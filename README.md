@@ -1,4 +1,4 @@
-# CurrencyExchanger
+# CurrencyConverter
 This app is used for your desired currency exchange
 
 Available currency convertion:
