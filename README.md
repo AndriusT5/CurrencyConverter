@@ -2,13 +2,13 @@
 This app is used for your desired currency exchange
 
 Available currency convertion:
-"EUR" <-> "DKK"
-"USD" <-> "DKK"
-"GBP" <-> "DKK"
-"SEK" <-> "DKK"
-"NOK" <-> "DKK"
-"CHF" <-> "DKK"
-"JPY" <-> "DKK"
+- "EUR" <-> "DKK"
+- "USD" <-> "DKK"
+- "GBP" <-> "DKK"
+- "SEK" <-> "DKK"
+- "NOK" <-> "DKK"
+- "CHF" <-> "DKK"
+- "JPY" <-> "DKK"
 
 
 
