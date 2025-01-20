@@ -12,21 +12,12 @@ namespace CurrencyConverter.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection()
-                 .AddLogging(builder =>
-                 {
-                     builder.ClearProviders();
-                     builder.SetMinimumLevel(LogLevel.Trace);
-                     builder.AddNLog();
-                 })
-                .AddCurrencyConverterServices()
-                .BuildServiceProvider();
+            var serviceProvider = ConfigureServices();
 
             var currencyConverter = serviceProvider.GetRequiredService<ICurrencyConverter>();
             var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 
             Console.WriteLine("Currency Calculator started...");
-            logger.LogInformation("Starting application.");
 
             while (true)
             {
@@ -37,23 +28,51 @@ namespace CurrencyConverter.ConsoleApp
 
                     var result = currencyConverter.Convert(sourceCurrency, targetCurrency, amount);
                     OutputFormatter.ShowResult(result, targetCurrency);
+
                     break;
                 }
                 catch (CurrencyNotFoundException ex)
                 {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    logger.LogError(ex, "An error occurred while converting currency.");
-                    Console.ReadLine();
-                    Console.Clear();
+                    HandleKnownError(ex, logger);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Unexpected error: {ex.Message}");
-                    logger.LogCritical(ex, "Unexpected error occurred.");
-                    Console.ReadLine();
-                    Console.Clear();
+                    HandleUnknownError(ex, logger);
                 }
             }
+        }
+
+        private static ServiceProvider ConfigureServices()
+        {
+            return new ServiceCollection()
+                .AddLogging(builder =>
+                {
+                    builder.ClearProviders();
+                    builder.SetMinimumLevel(LogLevel.Trace);
+                    builder.AddNLog();
+                })
+                .AddCurrencyConverterServices()
+                .BuildServiceProvider();
+        }
+
+        private static void HandleKnownError(CurrencyNotFoundException ex, ILogger logger)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            logger.LogError(ex, "A known error occurred while converting currency.");
+            WaitAndClear();
+        }
+
+        private static void HandleUnknownError(Exception ex, ILogger logger)
+        {
+            Console.WriteLine($"Unexpected error: {ex.Message}");
+            logger.LogCritical(ex, "An unexpected error occurred.");
+            WaitAndClear();
+        }
+
+        private static void WaitAndClear()
+        {
+            Console.ReadLine();
+            Console.Clear();
         }
     }
 }
