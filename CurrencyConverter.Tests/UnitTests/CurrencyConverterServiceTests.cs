@@ -2,6 +2,7 @@
 using CurrencyConverter.Application.Services;
 using CurrencyConverter.Domain.Interfaces;
 using CurrencyConverter.Domain.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace CurrencyConverter.Tests.UnitTests
 {
@@ -9,13 +10,15 @@ namespace CurrencyConverter.Tests.UnitTests
     public class CurrencyConverterServiceTests
     {
         private Mock<IRateProvider> _mockRateProvider;
+        private Mock<ILogger<CurrencyConverterService>> _mockLogger;
         private CurrencyConverterService _currencyConverterService;
 
         [SetUp]
         public void Setup()
         {
+            _mockLogger = new Mock<ILogger<CurrencyConverterService>>();
             _mockRateProvider = new Mock<IRateProvider>();
-            _currencyConverterService = new CurrencyConverterService(_mockRateProvider.Object);
+            _currencyConverterService = new CurrencyConverterService(_mockRateProvider.Object, _mockLogger.Object);
         }
 
         [Test]

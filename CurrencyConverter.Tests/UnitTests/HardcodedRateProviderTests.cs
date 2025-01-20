@@ -1,5 +1,8 @@
-﻿using CurrencyConverter.Domain.Exceptions;
+﻿using CurrencyConverter.Application.Services;
+using CurrencyConverter.Domain.Exceptions;
 using CurrencyConverter.Infrastructure.Providers;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace CurrencyConverter.Tests.UnitTests
 {
@@ -7,11 +10,13 @@ namespace CurrencyConverter.Tests.UnitTests
     public class HardcodedRateProviderTests
     {
         private HardcodedRateProvider _rateProvider;
+        private Mock<ILogger<HardcodedRateProvider>> _mockLogger;
 
         [SetUp]
         public void Setup()
         {
-            _rateProvider = new HardcodedRateProvider();
+            _mockLogger = new Mock<ILogger<HardcodedRateProvider>>();
+            _rateProvider = new HardcodedRateProvider(_mockLogger.Object);
         }
 
         [Test]
