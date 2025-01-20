@@ -22,11 +22,11 @@ namespace CurrencyConverter.Tests.UnitTests
         public void Convert_ValidInputs_ReturnsConvertedAmount()
         {
             // Arrange
-            string sourceCurrency = "USD";
-            string targetCurrency = "EUR";
+            string sourceCurrency = "EUR";
+            string targetCurrency = "DKK";
             decimal amount = 100m;
-            decimal expectedRate = 0.85m;
-            decimal expectedConvertedAmount = 85m;
+            decimal expectedRate = 7.4394m;
+            decimal expectedConvertedAmount = 743.94m;
 
             _mockRateProvider.Setup(p => p.GetExchangeRate(sourceCurrency, targetCurrency))
                              .Returns(expectedRate);
@@ -62,9 +62,9 @@ namespace CurrencyConverter.Tests.UnitTests
         public void Convert_NegativeAmount_ThrowsArgumentException()
         {
             // Arrange
-            string sourceCurrency = "USD";
-            string targetCurrency = "EUR";
-            decimal amount = -10m;
+            string sourceCurrency = "EUR";
+            string targetCurrency = "DKK";
+            decimal amount = -1m;
 
             // Act & Assert
             var ex = Assert.Throws<ArgumentException>(() =>

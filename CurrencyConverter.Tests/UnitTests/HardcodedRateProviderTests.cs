@@ -30,6 +30,21 @@ namespace CurrencyConverter.Tests.UnitTests
         }
 
         [Test]
+        public void GetExchangeRate_ValidInverseCurrencies_ReturnsCorrectInverseRate()
+        {
+            // Arrange
+            string sourceCurrency = "DKK";
+            string targetCurrency = "EUR";
+            decimal expectedRate = 0.1344m;
+
+            // Act
+            var rate = _rateProvider.GetExchangeRate(sourceCurrency, targetCurrency);
+
+            // Assert
+            Assert.AreEqual(expectedRate, Math.Round(rate, 4));
+        }
+
+        [Test]
         public void GetExchangeRate_InvalidCurrencies_ThrowsCurrencyNotFoundException()
         {
             // Arrange

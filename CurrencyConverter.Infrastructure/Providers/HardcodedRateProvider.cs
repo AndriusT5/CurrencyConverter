@@ -23,14 +23,21 @@ namespace CurrencyConverter.Infrastructure.Providers
 
         public decimal GetExchangeRate(string sourceCurrency, string targetCurrency)
         {
-            var key = (sourceCurrency.ToUpper(), targetCurrency.ToUpper());
+            var directKey = (sourceCurrency.ToUpper(), targetCurrency.ToUpper());
+            var inverseKey = (targetCurrency.ToUpper(), sourceCurrency.ToUpper());
 
-            if (!_exchangeRates.TryGetValue(key, out var rate))
+            if (_exchangeRates.TryGetValue(directKey, out var directRate))
+            {
+                return directRate;
+            }
+            else if (_exchangeRates.TryGetValue(inverseKey, out var inverseRate))
+            {
+                return 1 / inverseRate;
+            }
+            else
             {
                 throw new CurrencyNotFoundException($"Exchange rate from {sourceCurrency} to {targetCurrency} not found.");
             }
-
-            return rate;
         }
     }
 }
