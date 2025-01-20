@@ -1,7 +1,7 @@
 # CurrencyConverter
 This app is used for your desired currency exchange
 
-Available currency convertion:
+Available currency conversion:
 - "EUR" <-> "DKK"
 - "USD" <-> "DKK"
 - "GBP" <-> "DKK"
